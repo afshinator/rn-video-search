@@ -1,5 +1,11 @@
 import * as React from "react";
-import { StyleSheet, ImageBackground, Dimensions, Switch } from "react-native";
+import {
+  StyleSheet,
+  ImageBackground,
+  Dimensions,
+  Switch,
+  Button,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -15,15 +21,17 @@ type SelectEntryProps = {
 };
 
 function SelectEntry({ title, value, dispatch }: SelectEntryProps) {
-  const thumbColor = value ? "#7adf8d" : "#3e6d47"
+  const thumbColor = value ? "#7adf8d" : "#3e6d47";
   return (
     <View style={{ ...styles.choiceEntry }}>
       <View style={{ ...styles.choiceBox }}>
         <Switch
           trackColor={{ false: "#111", true: "#000" }}
-          thumbColor={ thumbColor}
+          thumbColor={thumbColor}
           ios_backgroundColor="#2E3138"
-          onValueChange={ () =>{ dispatch({type:'setSelection', data: title})} }
+          onValueChange={() => {
+            dispatch({ type: "setSelection", data: title });
+          }}
           value={value}
         />
       </View>
@@ -44,12 +52,12 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  const newState = JSON.parse(JSON.stringify(state))
+  const newState = JSON.parse(JSON.stringify(state));
   const which = action.data.toLowerCase();
 
   switch (action.type) {
     case "setSelection":
-      newState.userSelections[which] = !newState.userSelections[which] 
+      newState.userSelections[which] = !newState.userSelections[which];
       console.log("reducer setSelection ", newState.userSelections[which]);
       return newState;
 
@@ -58,9 +66,11 @@ const reducer = (state, action) => {
   }
 };
 
-
 export default function TabOneScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const onSearchPress = () => {
+    console.log("search pressed");
+  };
 
   return (
     <LinearGradient
@@ -143,6 +153,21 @@ export default function TabOneScreen() {
             color: "white",
             paddingLeft: 45,
           }}
+        />
+      </View>
+      <View
+        style={{
+          ...styles.card,
+          ...styles.transparent,
+          marginTop: 40,
+          padding: 0,
+        }}
+      >
+        <Button
+          title="Go Search"
+          onPress={onSearchPress}
+          color="#1DB584"
+          accessibilityLabel="Do the search for term entered"
         />
       </View>
     </LinearGradient>
