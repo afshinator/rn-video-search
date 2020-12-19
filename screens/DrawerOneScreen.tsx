@@ -4,33 +4,64 @@ import { TextInput } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
-// import CheckBox from "@react-native-community/checkbox";
 
 const { width, height } = Dimensions.get("window");
 const cardWidth = Math.floor(width * 0.82);
+
+type SelectEntryProps = {
+  title: string;
+  value: boolean;
+  dispatch: Function;
+};
+
+function SelectEntry({ title, value, dispatch }: SelectEntryProps) {
+  const thumbColor = value ? "#7adf8d" : "#3e6d47"
+  return (
+    <View style={{ ...styles.choiceEntry }}>
+      <View style={{ ...styles.choiceBox }}>
+        <Switch
+          trackColor={{ false: "#111", true: "#000" }}
+          thumbColor={ thumbColor}
+          ios_backgroundColor="#2E3138"
+          onValueChange={ () =>{ dispatch({type:'setSelection', data: title})} }
+          value={value}
+        />
+      </View>
+      <View style={{ ...styles.transparent }}>
+        <Text style={{ ...styles.choiceName }}>{title}</Text>
+      </View>
+    </View>
+  );
+}
 
 const initialState = {
   userSelections: {
     youtube: true,
     vimeo: true,
     bing: true,
+    filter: true,
   },
 };
 
 const reducer = (state, action) => {
-  return state;
+  const newState = JSON.parse(JSON.stringify(state))
+  const which = action.data.toLowerCase();
+
+  switch (action.type) {
+    case "setSelection":
+      newState.userSelections[which] = !newState.userSelections[which] 
+      console.log("reducer setSelection ", newState.userSelections[which]);
+      return newState;
+
+    default:
+      throw new Error();
+  }
 };
+
 
 export default function TabOneScreen() {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  // <View style={styles.container}>
-  {
-    /* <ImageBackground
-        source={require("../assets/images/bg.png")}
-        style={styles.backgroundImage}
-      > */
-  }
   return (
     <LinearGradient
       colors={["#3E434E", "#1A1C1F", "#34383E"]}
@@ -49,36 +80,21 @@ export default function TabOneScreen() {
         >
           Select Providers
         </Text>
-        <View style={{ ...styles.choiceEntry }}>
-          <View style={{ ...styles.choiceBox }}>
-            <Switch
-              trackColor={{ false: "#2E3138", true: "#3E434E" }}
-              thumbColor={"#7ADF8D"}
-              ios_backgroundColor="#2E3138"
-              // onValueChange={toggleSwitch}
-              // value={isEnabled}
-            />
-          </View>
-          <View style={{ ...styles.transparent }}>
-            <Text style={{ ...styles.choiceName }}>Youtube</Text>
-          </View>
-        </View>
-        <View style={{ ...styles.choiceEntry }}>
-          <View style={{ ...styles.choiceBox }}>
-            <Text>🎞</Text>
-          </View>
-          <View style={{ ...styles.transparent }}>
-            <Text style={{ ...styles.choiceName }}>Vimeo</Text>
-          </View>
-        </View>
-        <View style={{ ...styles.choiceEntry }}>
-          <View style={{ ...styles.choiceBox }}>
-            <Text>🎞</Text>
-          </View>
-          <View style={{ ...styles.transparent }}>
-            <Text style={{ ...styles.choiceName }}>Bing</Text>
-          </View>
-        </View>
+        <SelectEntry
+          title={"youtube"}
+          value={state.userSelections.youtube}
+          dispatch={dispatch}
+        />
+        <SelectEntry
+          title={"vimeo"}
+          value={state.userSelections.vimeo}
+          dispatch={dispatch}
+        />
+        <SelectEntry
+          title={"bing"}
+          value={state.userSelections.bing}
+          dispatch={dispatch}
+        />
         <View
           style={{
             borderTopColor: "#474b51",
@@ -88,21 +104,12 @@ export default function TabOneScreen() {
             marginVertical: 15,
           }}
         />
-        <View style={{ ...styles.choiceEntry }}>
-          <View style={{ ...styles.choiceBox }}>
-            <Text>🎞</Text>
-          </View>
-          <View style={{ ...styles.transparent }}>
-            <Text style={{ ...styles.choiceName }}>Filter Duplicates</Text>
-          </View>
-        </View>
+        <SelectEntry
+          title={"filter"}
+          value={state.userSelections.filter}
+          dispatch={dispatch}
+        />
       </View>
-
-      {/* <CheckBox
-            disabled={false}
-            value={toggleCheckBox}
-            onValueChange={(newValue) => setToggleCheckBox(newValue)}
-          /> */}
 
       <View
         style={{
@@ -112,7 +119,17 @@ export default function TabOneScreen() {
           padding: 0,
         }}
       >
-        <Text style={{ fontSize: 42, position: 'absolute', top: 0, zIndex:1}}>🔍</Text>
+        <Text
+          style={{
+            fontSize: 52,
+            position: "absolute",
+            left: -15,
+            top: -15,
+            zIndex: 1,
+          }}
+        >
+          🔍
+        </Text>
         <TextInput
           placeholder="SEARCH"
           placeholderTextColor="green"
@@ -171,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     // marginBottom: 5,
     backgroundColor: "transparent",
-    padding: 10,
+    padding: 7,
   },
   choiceName: {
     fontSize: 20,
