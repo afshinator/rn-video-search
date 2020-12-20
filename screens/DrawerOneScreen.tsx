@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   StyleSheet,
+  Image,
   ImageBackground,
   Dimensions,
   Switch,
@@ -79,7 +80,22 @@ export default function TabOneScreen() {
       end={{ x: 1, y: 1 }}
       style={styles.container}
     >
-      <View style={{ ...styles.card, ...styles.transparent, marginTop: 40 }}>
+      <View
+        style={{
+          backgroundColor: "transparent",
+          flexDirection: "row",
+          marginTop: 40,
+          justifyContent: 'center',
+        }}
+      >
+        <Image source={require("../assets/images/vidsearch1.png")} />
+        <View style={{ ...styles.transparent}}>
+          <Text style={{ color: "white", fontSize: 48 }}>Video</Text>
+          <Text style={{ color: "white", fontSize: 48 }}>Search</Text>
+        </View>
+      </View>
+
+      <View style={{ ...styles.card, ...styles.transparent, marginTop: 20 }}>
         <Text
           style={{
             color: "#fff",
