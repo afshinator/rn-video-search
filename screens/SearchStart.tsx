@@ -12,7 +12,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { FunctionComponent } from "react";
-import { StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from "@react-navigation/stack";
 import { DrawerOneParamList } from "../types";
 
 const { width, height } = Dimensions.get("window");
@@ -30,7 +30,7 @@ const SelectEntry: FunctionComponent<SelectEntryProps> = ({
   dispatch,
   children,
 }) => {
-  const thumbColor = value ? "#7adf8d" : "#3e6d47";
+  const thumbColor = value ? "#20bf55" : "#3e6d47";
   return (
     <View style={{ ...styles.choiceEntry }}>
       <View style={{ ...styles.choiceBox }}>
@@ -44,9 +44,7 @@ const SelectEntry: FunctionComponent<SelectEntryProps> = ({
           value={value}
         />
       </View>
-      <View style={{ ...styles.transparent }}>
-        {children}
-      </View>
+      <View style={{ ...styles.transparent }}>{children}</View>
     </View>
   );
 };
@@ -75,18 +73,23 @@ const reducer = (state, action) => {
   }
 };
 
+type Props = StackScreenProps<DrawerOneParamList, "SearchStart">;
 
-type Props=StackScreenProps<DrawerOneParamList, 'SearchStart'>
-
-export default function SearchStart({navigation }: Props) {
+export default function SearchStart({ navigation }: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const onSearchPress = () => {
     console.log("search pressed");
   };
 
   return (
+    // <LinearGradient
+    //   colors={["#3E434E", "#1A1C1F", "#34383E"]}
+    //   start={{ x: 0, y: 0 }}
+    //   end={{ x: 1, y: 1 }}
+    //   style={styles.container}
+    // >
     <LinearGradient
-      colors={["#3E434E", "#1A1C1F", "#34383E"]}
+      colors={["#537895", "#09203f"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={styles.container}
@@ -112,7 +115,7 @@ export default function SearchStart({navigation }: Props) {
         >
           <Text
             style={{
-              color: "white",
+              color: "#d5573b",
               fontSize: 42,
               fontWeight: "bold",
               lineHeight: 42,
@@ -122,7 +125,7 @@ export default function SearchStart({navigation }: Props) {
           </Text>
           <Text
             style={{
-              color: "white",
+              color: "#f6f1d1",
               fontSize: 42,
               fontWeight: "bold",
               lineHeight: 42,
@@ -143,66 +146,11 @@ export default function SearchStart({navigation }: Props) {
         }}
       />
 
-      {/* <View style={{ ...styles.card, ...styles.transparent, marginTop: 20 }}> */}
-      <LinearGradient
-        colors={["#2a2e33", "#25282c"]}
-        style={{ ...styles.card, marginTop: 20 }}
-      >
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 20,
-            fontWeight: "bold",
-            marginBottom: 15,
-          }}
-        >
-          Select Providers
-        </Text>
-        <SelectEntry
-          who={"youtube"}
-          value={state.userSelections.youtube}
-          dispatch={dispatch}
-        >
-          <Text style={{ ...styles.choiceName }}>Youtube</Text>
-        </SelectEntry>
-
-        <SelectEntry
-          who={"vimeo"}
-          value={state.userSelections.vimeo}
-          >
-          <Text style={{ ...styles.choiceName }}>Vimeo</Text>
-        </SelectEntry>
-        <SelectEntry
-          who={"bing"}
-          value={state.userSelections.bing}
-          dispatch={dispatch}
-          >
-          <Text style={{ ...styles.choiceName }}>Bing</Text>
-        </SelectEntry>
-        <View
-          style={{
-            borderTopColor: "#474b51",
-            borderBottomColor: "black",
-            borderTopWidth: 1,
-            borderBottomWidth: 1,
-            marginVertical: 15,
-          }}
-        />
-        <SelectEntry
-          who={"filter"}
-          value={state.userSelections.filter}
-          dispatch={dispatch}
-          >
-          <Text style={{ ...styles.choiceName }}>filter duplicates</Text>
-        </SelectEntry>
-      </LinearGradient>
-      {/* </View> */}
-
       <View
         style={{
           ...styles.card,
           ...styles.transparent,
-          marginTop: 40,
+          marginTop: 20,
           padding: 0,
         }}
       >
@@ -218,8 +166,8 @@ export default function SearchStart({navigation }: Props) {
           🔍
         </Text>
         <TextInput
-          placeholder="SEARCH"
-          placeholderTextColor="green"
+          placeholder="Enter your search term(s)"
+          placeholderTextColor="#88bb92"
           inlineImageLeft="search_icon"
           style={{
             height: 40,
@@ -227,11 +175,68 @@ export default function SearchStart({navigation }: Props) {
             backgroundColor: "#2E3138",
             borderColor: "gray",
             borderWidth: 1,
-            color: "white",
+            color: "#f6f1d1",
             paddingLeft: 45,
+            fontSize: 20,
           }}
         />
       </View>
+
+      {/* <LinearGradient
+        colors={["#2a2e33", "#25282c"]}
+        style={{ ...styles.card, marginTop: 20 }}
+      > */}
+      <LinearGradient
+        colors={["#4b6f8c", "#284563"]}
+        style={{ ...styles.card, marginTop: 30 }}
+      >
+        <Text
+          style={{
+            color: "#f6f1d1",
+            fontSize: 20,
+            fontWeight: "bold",
+            marginBottom: 15,
+          }}
+        >
+          Select Providers
+        </Text>
+        <SelectEntry
+          who={"youtube"}
+          value={state.userSelections.youtube}
+          dispatch={dispatch}
+        >
+          <Text style={{ ...styles.choiceName }}>Youtube</Text>
+        </SelectEntry>
+
+        <SelectEntry who={"vimeo"} value={state.userSelections.vimeo}>
+          <Text style={{ ...styles.choiceName }}>Vimeo</Text>
+        </SelectEntry>
+        <SelectEntry
+          who={"bing"}
+          value={state.userSelections.bing}
+          dispatch={dispatch}
+        >
+          <Text style={{ ...styles.choiceName }}>Bing</Text>
+        </SelectEntry>
+        <View
+          style={{
+            borderTopColor: "#474b51",
+            borderBottomColor: "black",
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            marginVertical: 15,
+          }}
+        />
+        <SelectEntry
+          who={"filter"}
+          value={state.userSelections.filter}
+          dispatch={dispatch}
+        >
+          <Text style={{ ...styles.choiceName }}>filter duplicates</Text>
+        </SelectEntry>
+      </LinearGradient>
+      {/* </View> */}
+
       <View
         style={{
           ...styles.card,
@@ -242,8 +247,8 @@ export default function SearchStart({navigation }: Props) {
       >
         <Button
           title="Go Search"
-          onPress={() => navigation.navigate('SearchStats')}
-          color="#1DB584"
+          onPress={() => navigation.navigate("SearchStats")}
+          color="#20bf55"
           accessibilityLabel="search providers from above for term you entered"
         />
       </View>
@@ -287,14 +292,14 @@ const styles = StyleSheet.create({
   },
   choiceEntry: {
     flexDirection: "row",
-    marginLeft:20,
+    marginLeft: 20,
     backgroundColor: "transparent",
     padding: 7,
   },
   choiceName: {
     fontSize: 20,
     marginLeft: 15,
-    color: "white",
+    color: "#f6f1d1",
   },
   transparent: {
     backgroundColor: "transparent",
