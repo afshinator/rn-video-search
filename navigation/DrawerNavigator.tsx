@@ -4,22 +4,23 @@ import { DrawerOneParamList, DrawerParamList, DrawerTwoParamList } from "../type
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { createStackNavigator } from "@react-navigation/stack";
-import DrawerOneScreen from "../screens/DrawerOneScreen";
-import DrawerTwoScreen from "../screens/DrawerTwoScreen";
+import ResultsStart from "../screens/ResultsStart";
+import SearchStart from './../screens/SearchStart';
+import SearchStats from '../screens/SearchStats';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export default function DrawerNavigator() {
   const colorScheme = useColorScheme();
   return (
-    <Drawer.Navigator initialRouteName="DrawerOne"
+    <Drawer.Navigator initialRouteName="Search Term"
       // screenOptions={{
       //   headerStyle: { backgroundColor: 'transparent'}
       // }}
     
     >
-      <Drawer.Screen name="DrawerOne" component={DrawerOneNavigator} />
-      <Drawer.Screen name="DrawerTwo" component={DrawerTwoNavigator} />
+      <Drawer.Screen name="Search Term" component={DrawerOneNavigator} />
+      <Drawer.Screen name="Results Stats" component={DrawerTwoNavigator} />
     </Drawer.Navigator>
   );
 }
@@ -30,10 +31,15 @@ function DrawerOneNavigator() {
   return (
     <DrawerOneStack.Navigator>
       <DrawerOneStack.Screen
-        name="DrawerOneScreen"
-        component={DrawerOneScreen}
+        name="SearchStart"
+        component={SearchStart}
         options={{ title: '', headerTransparent: true }}
       />
+      <DrawerOneStack.Screen
+        name="SearchStats"
+        component={SearchStats}
+        options={{ title: '', headerTransparent: true }}
+      />      
     </DrawerOneStack.Navigator>
   );
 }
@@ -44,8 +50,8 @@ function DrawerTwoNavigator() {
   return (
     <DrawerTwoStack.Navigator>
       <DrawerTwoStack.Screen
-        name="DrawerTwoScreen"
-        component={DrawerTwoScreen}
+        name="DrawerTwoScreenOne"
+        component={ResultsStart}
         options={{ headerTitle: 'Drawer Two Title' }}
       />
     </DrawerTwoStack.Navigator>

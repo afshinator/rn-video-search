@@ -8,19 +8,20 @@ export type BottomTabParamList = {
   TabTwo: undefined;
 };
 export type DrawerParamList = {
-  DrawerOne: undefined;
-  DrawerTwo: undefined;
+  "Search Term": undefined;
+  "Results Stats": undefined;
 };
 
 export type TabOneParamList = {
   TabOneScreen: undefined;
 };
 export type DrawerOneParamList = {
-  DrawerOneScreen: undefined;
+  SearchStart: undefined;
+  SearchStats: undefined;
 };
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };
 export type DrawerTwoParamList = {
-  DrawerTwoScreen: undefined;
+  DrawerTwoScreenOne: undefined;
 };

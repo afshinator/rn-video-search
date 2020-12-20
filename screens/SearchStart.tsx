@@ -11,17 +11,25 @@ import { TextInput } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+import { FunctionComponent } from "react";
+import { StackScreenProps } from '@react-navigation/stack';
+import { DrawerOneParamList } from "../types";
 
 const { width, height } = Dimensions.get("window");
 const cardWidth = Math.floor(width * 0.82);
 
 type SelectEntryProps = {
-  title: string;
+  who: string;
   value: boolean;
   dispatch: Function;
 };
 
-function SelectEntry({ title, value, dispatch }: SelectEntryProps) {
+const SelectEntry: FunctionComponent<SelectEntryProps> = ({
+  who,
+  value,
+  dispatch,
+  children,
+}) => {
   const thumbColor = value ? "#7adf8d" : "#3e6d47";
   return (
     <View style={{ ...styles.choiceEntry }}>
@@ -31,17 +39,17 @@ function SelectEntry({ title, value, dispatch }: SelectEntryProps) {
           thumbColor={thumbColor}
           ios_backgroundColor="#2E3138"
           onValueChange={() => {
-            dispatch({ type: "setSelection", data: title });
+            dispatch({ type: "setSelection", data: who });
           }}
           value={value}
         />
       </View>
       <View style={{ ...styles.transparent }}>
-        <Text style={{ ...styles.choiceName }}>{title}</Text>
+        {children}
       </View>
     </View>
   );
-}
+};
 
 const initialState = {
   userSelections: {
@@ -67,7 +75,10 @@ const reducer = (state, action) => {
   }
 };
 
-export default function TabOneScreen() {
+
+type Props=StackScreenProps<DrawerOneParamList, 'SearchStart'>
+
+export default function SearchStart({navigation }: Props) {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const onSearchPress = () => {
     console.log("search pressed");
@@ -148,20 +159,26 @@ export default function TabOneScreen() {
           Select Providers
         </Text>
         <SelectEntry
-          title={"youtube"}
+          who={"youtube"}
           value={state.userSelections.youtube}
           dispatch={dispatch}
-        />
+        >
+          <Text style={{ ...styles.choiceName }}>Youtube</Text>
+        </SelectEntry>
+
         <SelectEntry
-          title={"vimeo"}
+          who={"vimeo"}
           value={state.userSelections.vimeo}
-          dispatch={dispatch}
-        />
+          >
+          <Text style={{ ...styles.choiceName }}>Vimeo</Text>
+        </SelectEntry>
         <SelectEntry
-          title={"bing"}
+          who={"bing"}
           value={state.userSelections.bing}
           dispatch={dispatch}
-        />
+          >
+          <Text style={{ ...styles.choiceName }}>Bing</Text>
+        </SelectEntry>
         <View
           style={{
             borderTopColor: "#474b51",
@@ -172,10 +189,12 @@ export default function TabOneScreen() {
           }}
         />
         <SelectEntry
-          title={"filter"}
+          who={"filter"}
           value={state.userSelections.filter}
           dispatch={dispatch}
-        />
+          >
+          <Text style={{ ...styles.choiceName }}>filter duplicates</Text>
+        </SelectEntry>
       </LinearGradient>
       {/* </View> */}
 
@@ -223,9 +242,9 @@ export default function TabOneScreen() {
       >
         <Button
           title="Go Search"
-          onPress={onSearchPress}
+          onPress={() => navigation.navigate('SearchStats')}
           color="#1DB584"
-          accessibilityLabel="Do the search for term entered"
+          accessibilityLabel="search providers from above for term you entered"
         />
       </View>
     </LinearGradient>
@@ -268,7 +287,7 @@ const styles = StyleSheet.create({
   },
   choiceEntry: {
     flexDirection: "row",
-    // marginBottom: 5,
+    marginLeft:20,
     backgroundColor: "transparent",
     padding: 7,
   },
