@@ -82,20 +82,61 @@ export default function TabOneScreen() {
     >
       <View
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: "rgba(0,0,0,0.4)",
           flexDirection: "row",
           marginTop: 40,
-          justifyContent: 'center',
+          justifyContent: "center",
         }}
       >
-        <Image source={require("../assets/images/vidsearch1.png")} />
-        <View style={{ ...styles.transparent}}>
-          <Text style={{ color: "white", fontSize: 48 }}>Video</Text>
-          <Text style={{ color: "white", fontSize: 48 }}>Search</Text>
+        <Image
+          source={require("../assets/images/vidsearch1.png")}
+          style={{ width: 100, resizeMode: "contain" }}
+        />
+        <View
+          style={{
+            backgroundColor: "transparent",
+            marginLeft: 20,
+            marginTop: 25,
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 42,
+              fontWeight: "bold",
+              lineHeight: 42,
+            }}
+          >
+            Video
+          </Text>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 42,
+              fontWeight: "bold",
+              lineHeight: 42,
+            }}
+          >
+            Search
+          </Text>
         </View>
       </View>
 
-      <View style={{ ...styles.card, ...styles.transparent, marginTop: 20 }}>
+      <View
+        style={{
+          borderTopColor: "#474b51",
+          borderBottomColor: "black",
+          borderTopWidth: 1,
+          borderBottomWidth: 1,
+          marginVertical: 15,
+        }}
+      />
+
+      {/* <View style={{ ...styles.card, ...styles.transparent, marginTop: 20 }}> */}
+      <LinearGradient
+        colors={["#2a2e33", "#25282c"]}
+        style={{ ...styles.card, marginTop: 20 }}
+      >
         <Text
           style={{
             color: "#fff",
@@ -135,7 +176,8 @@ export default function TabOneScreen() {
           value={state.userSelections.filter}
           dispatch={dispatch}
         />
-      </View>
+      </LinearGradient>
+      {/* </View> */}
 
       <View
         style={{
@@ -196,7 +238,6 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: "transparent",
     width: cardWidth,
     alignSelf: "center",
     borderRadius: 15,
@@ -216,7 +257,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
 
-    // elevation: 1,
+    elevation: 1,
   },
   backgroundImage: {
     flex: 1,
