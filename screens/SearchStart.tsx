@@ -22,7 +22,7 @@ const cardWidth = Math.floor(width * 0.82);
 type SelectEntryProps = {
   who: string;
   value: boolean;
-  dispatch: React.Dispatch<{type: string, data: string}>;
+  dispatch: React.Dispatch<{ type: string; data: string }>;
 };
 
 const SelectEntry: FunctionComponent<SelectEntryProps> = ({
@@ -59,28 +59,28 @@ const initialState = {
   },
 };
 
-const reducer = (state, action) => {
-  const newState = JSON.parse(JSON.stringify(state));
-  const which = action.data.toLowerCase();
+// const reducer = (state, action) => {
+//   const newState = JSON.parse(JSON.stringify(state));
+//   const which = action.data.toLowerCase();
 
-  switch (action.type) {
-    case "setSelection":
-      newState.userSelections[which] = !newState.userSelections[which];
-      console.log("reducer setSelection ", newState.userSelections[which]);
-      return newState;
+//   switch (action.type) {
+//     case "setSelection":
+//       newState.userSelections[which] = !newState.userSelections[which];
+//       console.log("reducer setSelection ", newState.userSelections[which]);
+//       return newState;
 
-    default:
-      throw new Error();
-  }
-};
+//     default:
+//       throw new Error();
+//   }
+// };
 
 type Props = StackScreenProps<DrawerOneParamList, "SearchStart">;
 
 export default function SearchStart({ navigation }: Props) {
   // const [state, dispatch] = React.useReducer(reducer, initialState);
-  const dataContext = React.useContext(DataContext)
-  console.log('dataContext ', dataContext)
-  const {state, dispatch} = dataContext
+  const dataContext = React.useContext(DataContext);
+  console.log("dataContext ", dataContext);
+  const { state, dispatch } = dataContext;
 
   const onSearchPress = () => {
     console.log("search pressed");
@@ -213,7 +213,11 @@ export default function SearchStart({ navigation }: Props) {
           <Text style={{ ...styles.choiceName }}>Youtube</Text>
         </SelectEntry>
 
-        <SelectEntry who={"vimeo"} value={state.selectedProviders.vimeo}>
+        <SelectEntry
+          who={"vimeo"}
+          value={state.selectedProviders.vimeo}
+          dispatch={dispatch}
+        >
           <Text style={{ ...styles.choiceName }}>Vimeo</Text>
         </SelectEntry>
         <SelectEntry
