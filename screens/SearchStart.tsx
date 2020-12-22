@@ -14,6 +14,7 @@ import { Text, View } from "../components/Themed";
 import { FunctionComponent } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 import { DrawerOneParamList } from "../types";
+import { DataContext } from "../hooks/useGlobalReducer";
 
 const { width, height } = Dimensions.get("window");
 const cardWidth = Math.floor(width * 0.82);
@@ -21,7 +22,7 @@ const cardWidth = Math.floor(width * 0.82);
 type SelectEntryProps = {
   who: string;
   value: boolean;
-  dispatch: Function;
+  dispatch: React.Dispatch<{type: string, data: string}>;
 };
 
 const SelectEntry: FunctionComponent<SelectEntryProps> = ({
@@ -39,7 +40,7 @@ const SelectEntry: FunctionComponent<SelectEntryProps> = ({
           thumbColor={thumbColor}
           ios_backgroundColor="#2E3138"
           onValueChange={() => {
-            dispatch({ type: "setSelection", data: who });
+            dispatch({ type: "TOGGLE_INCLUDE_PROVIDER", data: who });
           }}
           value={value}
         />
@@ -76,7 +77,11 @@ const reducer = (state, action) => {
 type Props = StackScreenProps<DrawerOneParamList, "SearchStart">;
 
 export default function SearchStart({ navigation }: Props) {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
+  // const [state, dispatch] = React.useReducer(reducer, initialState);
+  const dataContext = React.useContext(DataContext)
+  console.log('dataContext ', dataContext)
+  const {state, dispatch} = dataContext
+
   const onSearchPress = () => {
     console.log("search pressed");
   };
@@ -202,18 +207,18 @@ export default function SearchStart({ navigation }: Props) {
         </Text>
         <SelectEntry
           who={"youtube"}
-          value={state.userSelections.youtube}
+          value={state.selectedProviders.youtube}
           dispatch={dispatch}
         >
           <Text style={{ ...styles.choiceName }}>Youtube</Text>
         </SelectEntry>
 
-        <SelectEntry who={"vimeo"} value={state.userSelections.vimeo}>
+        <SelectEntry who={"vimeo"} value={state.selectedProviders.vimeo}>
           <Text style={{ ...styles.choiceName }}>Vimeo</Text>
         </SelectEntry>
         <SelectEntry
           who={"bing"}
-          value={state.userSelections.bing}
+          value={state.selectedProviders.bing}
           dispatch={dispatch}
         >
           <Text style={{ ...styles.choiceName }}>Bing</Text>
@@ -229,7 +234,7 @@ export default function SearchStart({ navigation }: Props) {
         />
         <SelectEntry
           who={"filter"}
-          value={state.userSelections.filter}
+          value={state.selectedProviders.filter}
           dispatch={dispatch}
         >
           <Text style={{ ...styles.choiceName }}>filter duplicates</Text>
